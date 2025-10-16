@@ -1,21 +1,22 @@
+# Python taban imaj
 FROM python:3.11-slim
 
-# Sistem bağımlılıkları (gerekirse ekleyebiliriz)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
+# Çalışma dizini
 WORKDIR /app
 
-# Python bağımlılıkları
-COPY requirements.txt .
+# Gereksinimleri yükle
+# requirements.txt dosyan backend klasöründeyse bu satırlar doğru:
+COPY backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Uygulama kodu
-COPY . .
+# Uygulama kodunu kopyala
+COPY backend/ ./
 
-# Railway port değişkeni
+# Railway/Render gibi ortamlarda PORT değişkeni verilir
 ENV PORT=8000
 
-# Uygulamayı başlat
-CMD ["uvicorn","server:app","--host","0.0.0.0","--port","8000"]
+# Uygulaman başlatma komutu:
+# "main:app" kısmını kendi FastAPI/Flask giriş noktanla eşleştir:
+#   - FastAPI için genelde main.py içinde "app" nesnesi vardır → "main:app"
+#   - Flask kullanıyorsan "app.py" içindeki "app" → "app:app"
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
