@@ -1,0 +1,28 @@
+name: Unpack ZIP to repo
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: List files
+        run: ls -la
+      - name: Install unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip
+      - name: Unzip and move
+        run: |
+          unzip -o sofascore_like_backend_and_app_v5_2_full.zip -d extracted
+          shopt -s dotglob
+          cp -r extracted/* .
+          rm -rf extracted sofascore_like_backend_and_app_v5_2_full.zip
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "."
+          message: "Unpack ZIP to repo (backend + app)"
+          default_author: github_actions
