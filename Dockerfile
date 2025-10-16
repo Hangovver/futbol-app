@@ -1,21 +1,22 @@
-# Minimal Dockerfile for the Python FastAPI backend on Railway
+# ---- base image
 FROM python:3.11-slim
 
-# Prevent python from writing .pyc files and buffer stdout/stderr
-ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1
+# OS bağımlılıkları gerekiyorsa buraya eklenir (gerekmedikçe boş bırak)
+# RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
+# Çalışma dizini
 WORKDIR /app
 
-# Install deps first (better caching)
-COPY backend/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# Önce sadece requirements'ı kopyala ve kur (cache için iyi)
+COPY backend/requirements.txt /app/backend/requirements.txt
+RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
-# Copy backend source
-COPY backend /app
+# Uygulamayı kopyala
+COPY backend /app/backend
+COPY main.py /app/main.py
 
-# Expose the port Railway sets via $PORT
+# Railway PORT'u enjekte eder; default olarak 8000 dursun
 ENV PORT=8000
 
-# Start FastAPI with uvicorn
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "${PORT}"]
+# Uygulamayı başlat
+CMD ["python", "/app/main.py"]
