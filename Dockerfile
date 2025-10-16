@@ -1,22 +1,20 @@
-# ---- base image
+# Python tabanı
 FROM python:3.11-slim
 
-# OS bağımlılıkları gerekiyorsa buraya eklenir (gerekmedikçe boş bırak)
-# RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
+# Daha temiz log ve cache'siz pip
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
 
-# Çalışma dizini
+# Çalışma klasörü
 WORKDIR /app
 
-# Önce sadece requirements'ı kopyala ve kur (cache için iyi)
-COPY backend/requirements.txt /app/backend/requirements.txt
-RUN pip install --no-cache-dir -r /app/backend/requirements.txt
+# Önce sadece gereksinimleri kopyala ve kur
+COPY backend/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-# Uygulamayı kopyala
-COPY backend /app/backend
-COPY main.py /app/main.py
+# Sonra TÜM kodu kopyala (main.py kesin gelir)
+COPY . /app
 
-# Railway PORT'u enjekte eder; default olarak 8000 dursun
+# Port ve başlatma
 ENV PORT=8000
-
-# Uygulamayı başlat
-CMD ["python", "/app/main.py"]
+EXPOSE 8000
+CMD ["python", "main.py"]
