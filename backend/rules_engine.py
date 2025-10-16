@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 import pytz
 from dotenv import load_dotenv
 from backend.apisports import fixtures_today, last_n_fixtures
-from localize import localize_team, localize_league
+from backend.localize import localize_team, localize_league
 load_dotenv()
 TZ = os.getenv("TZ","Europe/Istanbul")
 DEFAULT_MIN_PROB = float(os.getenv("MIN_PROB","0.70"))
