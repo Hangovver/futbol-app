@@ -1,0 +1,1 @@
+import React from 'react'; import { Image } from 'react-native'; export default function Logo({ uri, size=28 }: { uri?: string; size?: number }) { const valid = uri && uri.startsWith('http'); return <Image source={ valid ? { uri } : require('../../assets/default_logo.png') } style={{ width:size, height:size, borderRadius:size/2, marginRight:8 }} />; }

@@ -1,0 +1,1 @@
+import React from 'react'; import { View, Text } from 'react-native'; import { theme } from '../theme'; export default function Header({ title }:{title:string}){ const t=theme.dark; return (<View style={{ paddingVertical:8, marginBottom:8 }}><Text style={{ color:t.text, fontSize:22, fontWeight:'800' }}>{title}</Text></View>); }
