@@ -4,7 +4,7 @@ from fastapi import FastAPI, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
-from rules_engine import get_predictions_today, get_fixtures_today, DEFAULT_MIN_PROB
+from backend.rules_engine import get_predictions_today, get_fixtures_today, DEFAULT_MIN_PROB
 from services import live_fixtures, match_full_details, team_overview, calc_implied_for_coupon
 load_dotenv()
 
