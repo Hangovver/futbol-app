@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from backend.rules_engine import get_predictions_today, get_fixtures_today, DEFAULT_MIN_PROB
-from services import live_fixtures, match_full_details, team_overview, calc_implied_for_coupon
+from backend.services import live_fixtures, match_full_details, team_overview, calc_implied_for_coupon
 load_dotenv()
 
 app = FastAPI(title="Football Auto API (Full)", version="5.2.0")
