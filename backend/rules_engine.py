@@ -2,7 +2,7 @@ import os
 from typing import List, Dict, Any
 import pytz
 from dotenv import load_dotenv
-from apisports import fixtures_today, last_n_fixtures
+from backend.apisports import fixtures_today, last_n_fixtures
 from localize import localize_team, localize_league
 load_dotenv()
 TZ = os.getenv("TZ","Europe/Istanbul")
