@@ -1,1 +1,0 @@
-export const theme = { dark:  { bg:'#0b0f1a', card:'#0f172a', text:'#e5e7eb', sub:'#94a3b8', chip:'#1e293b', chipText:'#e5e7eb', primary:'#60a5fa', border:'#1f2937', accent:'#34d399', danger:'#ef4444' } };

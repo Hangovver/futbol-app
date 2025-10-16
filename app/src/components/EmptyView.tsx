@@ -1,1 +1,0 @@
-import React from 'react'; import { View, Text } from 'react-native'; import { theme } from '../theme'; export default function EmptyView({ text }:{text:string}){ const t=theme.dark; return (<View style={{ alignItems:'center', padding:24 }}><Text style={{ color:t.sub }}>{text}</Text></View>); }

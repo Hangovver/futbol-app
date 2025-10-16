@@ -1,1 +1,0 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'; export const SLIP_KEY='SLIP_V2'; export async function loadSlip(){ const raw=await AsyncStorage.getItem(SLIP_KEY); return raw? JSON.parse(raw): []; } export async function saveSlip(x:any){ await AsyncStorage.setItem(SLIP_KEY, JSON.stringify(x)); }
