@@ -1,0 +1,57 @@
+name: Unpack repo ZIP
+
+on:
+  workflow_dispatch:      # Elle "Run workflow" ile çalıştırabilirsin
+  push:
+    paths:
+      - "sofascore_like_backend_and_app_v5_2_full_railway_fixed.zip"  # Zip push edilince otomatik çalışır
+
+permissions:
+  contents: write
+
+jobs:
+  unzip-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Install unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Unzip into repo root
+        env:
+          ZIP_NAME: sofascore_like_backend_and_app_v5_2_full_railway_fixed.zip
+        run: |
+          if [ ! -f "$ZIP_NAME" ]; then
+            echo "ZIP not found: $ZIP_NAME"
+            ls -la
+            exit 1
+          fi
+
+          rm -rf temp_unzip && mkdir -p temp_unzip
+          unzip -o "$ZIP_NAME" -d temp_unzip
+
+          # Zip tek bir klasör içeriyorsa içindekileri köke taşı
+          shopt -s dotglob
+          if [ "$(find temp_unzip -mindepth 1 -maxdepth 1 | wc -l)" -eq 1 ] && \
+             [ -d "$(find temp_unzip -mindepth 1 -maxdepth 1 -type d)" ]; then
+            INNER_DIR="$(find temp_unzip -mindepth 1 -maxdepth 1 -type d)"
+            mv -f "$INNER_DIR"/* .
+          else
+            mv -f temp_unzip/* .
+          fi
+          shopt -u dotglob
+
+          rm -rf temp_unzip
+          rm -f "$ZIP_NAME"
+
+      - name: Commit & push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add -A
+          git commit -m "Unpack ZIP into repository" || echo "No changes to commit"
+          git push
