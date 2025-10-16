@@ -1,12 +1,11 @@
-# Ignore everything by default
-**
-
-# Allow the backend directory and its contents
-!backend
-!backend/**
-
-# Ignore common junk
 .git
 .github
-*.log
 node_modules
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+# İstersen mobil/web uygulama klasörünü de hariç tutabilirsin:
+app
