@@ -1,0 +1,1 @@
+import React from 'react'; import { View } from 'react-native'; import { theme } from '../theme'; export default function Card({ children }: any){ const t=theme.dark; return (<View style={{ backgroundColor:t.card, borderRadius:16, padding:12, marginBottom:12, borderWidth:1, borderColor:t.border }}>{children}</View>); }
